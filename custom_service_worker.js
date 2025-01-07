@@ -56,10 +56,13 @@ self.addEventListener('activate', function(event) {
 
 // This can be used for background sync
 self.addEventListener('sync', function(event) {
-  console.log("addEventListener('sync'");
+  console.log("addEventListener('sync'", event);
   if (event.tag === 'daily-notification') {
-    deferredPrompt.prompt();
-    deferredPrompt = null; // Clear the deferred prompt
+    if (!!deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt = null; // Clear the deferred prompt
+    }
+    
     event
     .waitUntil(showNotification())
     .catch(function(err){
@@ -69,6 +72,7 @@ self.addEventListener('sync', function(event) {
 });
 
 function showNotification() {
+  console.log("in showNotification", self.registration);
   return self.registration.showNotification('Scheduled Notification', {
     body: 'This is your daily notification at 6 PM!',
     icon: '/icons/icon-192.png',
