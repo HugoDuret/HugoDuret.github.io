@@ -3,7 +3,10 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-  event.waitUntil(self.clients.claim()); // Take control of all the open clients
+  event.waitUntil(self.clients.claim())
+  .catch(function(err){
+    console.log("Could not activate, self.clients.claim ", err);
+  }); // Take control of all the open clients
 });
 
 // This handles notifications that are triggered by background sync
@@ -16,7 +19,10 @@ self.addEventListener('push', function(event) {
 
   event.waitUntil(
     self.registration.showNotification('Daily Notification', options)
-  );
+  )
+  .catch(function(err){
+    console.log("Could not sync, scheduled for the next time", err);
+  });
 });
 
 self.addEventListener('activate', function(event) {
@@ -37,7 +43,11 @@ self.addEventListener('activate', function(event) {
 // This can be used for background sync
 self.addEventListener('sync', function(event) {
   if (event.tag === 'daily-notification') {
-    event.waitUntil(showNotification());
+    event
+    .waitUntil(showNotification())
+    .catch(function(err){
+      console.log("Could not sync, scheduled for the next time", err);
+    });
   }
 });
 
