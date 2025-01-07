@@ -1,6 +1,6 @@
 let deferredPrompt;
 
-window.addEventListener('beforeinstallprompt', (e) => {
+self.addEventListener('beforeinstallprompt', (e) => {
   // Prevent the automatic showing of the install prompt
   e.preventDefault();
   // Store the event so it can be triggered later
