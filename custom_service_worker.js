@@ -1,6 +1,7 @@
 let deferredPrompt;
 
 self.addEventListener('beforeinstallprompt', (e) => {
+  console.log("addEventListener('beforeinstallprompt");
   // Prevent the automatic showing of the install prompt
   e.preventDefault();
   // Store the event so it can be triggered later
@@ -8,10 +9,12 @@ self.addEventListener('beforeinstallprompt', (e) => {
 });
 
 self.addEventListener('install', event => {
+  console.log("addEventListener('install");
   self.skipWaiting(); // Force the service worker to activate immediately
 });
 
 self.addEventListener('activate', event => {
+  console.log("addEventListener('activate");
   event.waitUntil(self.clients.claim())
   .catch(function(err){
     console.log("Could not activate, self.clients.claim ", err);
@@ -20,6 +23,7 @@ self.addEventListener('activate', event => {
 
 // This handles notifications that are triggered by background sync
 self.addEventListener('push', function(event) {
+  console.log("addEventListener('push");
   const options = {
     body: event.data.text(),
     icon: '/icons/icon-192.png',
@@ -35,6 +39,7 @@ self.addEventListener('push', function(event) {
 });
 
 self.addEventListener('activate', function(event) {
+  console.log("addEventListener('activate'");
   if (self.registration.showNotification && isAndroid()) {
     const channel = new NotificationChannel('daily-notifications', {
       'name': 'Daily Notifications',
@@ -51,6 +56,7 @@ self.addEventListener('activate', function(event) {
 
 // This can be used for background sync
 self.addEventListener('sync', function(event) {
+  console.log("addEventListener('sync'");
   if (event.tag === 'daily-notification') {
     deferredPrompt.prompt();
     deferredPrompt = null; // Clear the deferred prompt
