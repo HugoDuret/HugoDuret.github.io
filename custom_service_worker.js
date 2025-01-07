@@ -1,15 +1,19 @@
-// from chatgpt
 self.addEventListener('push', function(event) {
-  const data = event.data ? event.data.json() : {};
-  const title = data.title || 'Default Title';
   const options = {
-    body: data.body || 'Default message body',
-    icon: 'icons/icon-192x192.png',
+    body: event.data ? event.data.text() : 'New Notification',
+    icon: '/icons/icon-192.png',
   };
-  event.waitUntil(
-    self.registration.showNotification(title, options)
-  );
+  event.waitUntil(self.registration.showNotification('Notification Title', options));
 });
+
+
+setTimeout(() => {
+  const options = {
+    body: 'New Notification',
+    icon: '/icons/icon-192.png',
+  };
+  self.registration.showNotification('Notification Title', options);
+}, 5000)
 
 
 // from medium
