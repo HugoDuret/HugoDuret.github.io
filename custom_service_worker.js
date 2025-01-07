@@ -20,7 +20,7 @@ self.addEventListener('push', function(event) {
 });
 
 self.addEventListener('activate', function(event) {
-  if (self.registration.showNotification) {
+  if (self.registration.showNotification && isAndroid()) {
     const channel = new NotificationChannel('daily-notifications', {
       'name': 'Daily Notifications',
       'description': 'Notifications for the daily reminder at 6 PM',
@@ -47,4 +47,9 @@ function showNotification() {
     icon: '/icons/icon-192.png',
     badge: '/icons/icon-192.png',
   });
+}
+
+function isAndroid() {
+  // Check if the user agent indicates an Android device
+  return /Android/i.test(self.navigator.userAgent);
 }
