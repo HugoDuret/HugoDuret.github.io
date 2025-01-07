@@ -32,14 +32,14 @@
 
   <title>flutter_pwa_notifications</title>
   <link rel="manifest" href="manifest.json">
-  <script src="https://hugoduret.github.io/test-flutter/script.js" defer></script>
+  <script src="script.js" defer></script>
 </head>
 
 <body>
-  <script src="https://hugoduret.github.io/test-flutter/flutter_bootstrap.js" async></script>
+  <script src="flutter_bootstrap.js" async></script>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('https://hugoduret.github.io/test-flutter/custom_service_worker.js');
+      navigator.serviceWorker.register('custom_service_worker.js');
     }
   </script>
 
