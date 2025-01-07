@@ -1,3 +1,12 @@
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent the automatic showing of the install prompt
+  e.preventDefault();
+  // Store the event so it can be triggered later
+  deferredPrompt = e;
+});
+
 self.addEventListener('install', event => {
   self.skipWaiting(); // Force the service worker to activate immediately
 });
@@ -43,6 +52,8 @@ self.addEventListener('activate', function(event) {
 // This can be used for background sync
 self.addEventListener('sync', function(event) {
   if (event.tag === 'daily-notification') {
+    deferredPrompt.prompt();
+    deferredPrompt = null; // Clear the deferred prompt
     event
     .waitUntil(showNotification())
     .catch(function(err){
